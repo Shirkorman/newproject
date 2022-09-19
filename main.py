@@ -95,7 +95,7 @@ def main():
                 Screen.win()
                 run = False
             if check_soldier_touch_mines(soldier_place, MineField.mines, screen):
-                Screen.lost(soldier_place[0],soldier_place[1])
+                Screen.lost(soldier_place[0], soldier_place[1])
                 run = False
     pygame.quit()
 
