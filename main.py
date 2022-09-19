@@ -8,8 +8,6 @@ import pygame.key
 import Soldier
 import consts
 import Screen
-import Database
-import time
 
 
 def show_net(soldier_place):
@@ -94,26 +92,32 @@ def main():
             if event.type == pygame.QUIT:
                 run = False
             key_pressed = pygame.key.get_pressed()
-            if Database.detect_key(key_pressed) != False:
-                if Database.START == False:
-                    Database.START = True
-                    start_time = time.time()
-            elif Database.detect_key(key_pressed) == False:
-                soldier_place = handle_user_events(soldier_place, screen)
-                Screen.draw_game(soldier_place[0], soldier_place[1], grass)
-                if check_soldier_touch_flag(soldier_place, screen):
-                    Screen.win()
-                    run = False
-                if check_soldier_touch_mines(soldier_place, MineField.mines, screen):
-                    Screen.lost(soldier_place[0], soldier_place[1])
-                    run = False
-            if key_pressed != None and Database.STOP == False and event.type == pygame.KEYUP:
-                Database.STOP = True
-                end_time = time.time()
-            if Database.STOP == True and Database.START == True:
-                time_lapsed = end_time - start_time
-                time_lapsed = time_lapsed % 60
-                if Database.main_database(soldier_place, MineField.mines, grass, key_pressed) == -1:
+            times=[0.5,2]
+            for i in range(len(times)):
+                if Database.detect_key(key_pressed) != False:
+                    if Database.main_database(soldier_place, MineField.mines, grass, key_pressed, times[i]) == -1:
+                        soldier_place = handle_user_events(soldier_place, screen)
+                        Screen.draw_game(soldier_place[0], soldier_place[1], grass)
+                        if check_soldier_touch_flag(soldier_place, screen):
+                            Screen.win()
+                            run = False
+                        if check_soldier_touch_mines(soldier_place, MineField.mines, screen):
+                            Screen.lost(soldier_place[0], soldier_place[1])
+                            run = False
+                    if Database.main_database(soldier_place, MineField.mines, grass, key_pressed, times[i]) != -1:
+                        data = Database.main_database(soldier_place, MineField.mines, grass, key_pressed, times[i])
+                        soldier_place = data["soldier_place"]
+                        MineField.mines = data["mines"]
+                        grass = data["grass"]
+                        soldier_place = handle_user_events(soldier_place, screen)
+                        Screen.draw_game(soldier_place[0], soldier_place[1], grass)
+                        if check_soldier_touch_flag(soldier_place, screen):
+                            Screen.win()
+                            run = False
+                        if check_soldier_touch_mines(soldier_place, MineField.mines, screen):
+                            Screen.lost(soldier_place[0], soldier_place[1])
+                            run = False
+                elif Database.detect_key(key_pressed) == False:
                     soldier_place = handle_user_events(soldier_place, screen)
                     Screen.draw_game(soldier_place[0], soldier_place[1], grass)
                     if check_soldier_touch_flag(soldier_place, screen):
@@ -122,28 +126,10 @@ def main():
                     if check_soldier_touch_mines(soldier_place, MineField.mines, screen):
                         Screen.lost(soldier_place[0], soldier_place[1])
                         run = False
-                if Database.main_database(soldier_place, MineField.mines, grass, key_pressed) != -1:
-                    data = Database.main_database(soldier_place, MineField.mines, grass, key_pressed)
-                    soldier_place = data["soldier_place"]
-                    MineField.mines = data["mines"]
-                    grass = data["grass"]
-                    soldier_place = handle_user_events(soldier_place, screen)
-                    Screen.draw_game(soldier_place[0], soldier_place[1], grass)
-                    if check_soldier_touch_flag(soldier_place, screen):
-                        Screen.win()
-                        run = False
-                    if check_soldier_touch_mines(soldier_place, MineField.mines, screen):
-                        Screen.lost(soldier_place[0], soldier_place[1])
-                        run = False
-                Database.STOP = False
-                Database.START = False
+
 
     pygame.quit()
 
 
 if __name__ == '__main__':
     main()
-
-
-
-
