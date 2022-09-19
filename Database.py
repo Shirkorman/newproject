@@ -1,0 +1,16 @@
+import Pandas
+import time
+
+def number_key_pressed(soldier_place,mines,grass):
+    t = time.time()  # reading time in sec
+    keys = pygame.key.get_pressed()
+    time_taken = round(time.time() - t, 2)
+
+def on_key_press(key): #what to do on key-press
+    return False #stop detecting more key-presses
+
+with keyboard.Listener(on_press = on_key_press) as press_listener: #setting code for listening key-press
+    press_listener.join()
+
+with keyboard.Listener(on_release = on_key_release) as release_listener: #setting code for listening key-release
+    release_listener.join()
