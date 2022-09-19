@@ -7,7 +7,6 @@ mines = []
 flag = []
 
 
-
 def create_screen():
     screen = []
     tuple_coordinates = []
