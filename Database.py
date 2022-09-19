@@ -1,16 +1,32 @@
-import Pandas
+# import pandas
 import time
+import pygame.key
+import keyboard
+import pygame
+import consts
 
-def number_key_pressed(soldier_place,mines,grass):
-    t = time.time()  # reading time in sec
-    keys = pygame.key.get_pressed()
-    time_taken = round(time.time() - t, 2)
+def creating_cvs_file(key):
+    pass
 
-def on_key_press(key): #what to do on key-press
-    return False #stop detecting more key-presses
+def put_data_in_chart(file):
+    pass
 
-with keyboard.Listener(on_press = on_key_press) as press_listener: #setting code for listening key-press
-    press_listener.join()
+def opening_cvs_file(key):
+    pass
 
-with keyboard.Listener(on_release = on_key_release) as release_listener: #setting code for listening key-release
-    release_listener.join()
+def continue_game():
+    pass
+
+def number_key_pressed(event, soldier_place, mines, grass):
+    start_time = time.time()
+    for event in pygame.event.get():
+        if event.type == KEYDOWN:
+            if event.key == consts.ONE_KEY:
+                running = False
+
+        if event.type == KEYUP:
+            if event.key == consts.ONE_KEY:
+                key_A_pressed = False
+
+
+
