@@ -91,6 +91,7 @@ def main():
                 run = False
             soldier_place = handle_user_events(soldier_place, screen)
             Screen.draw_game(soldier_place[0], soldier_place[1], grass)
+            # key_press and recognize
             if check_soldier_touch_flag(soldier_place, screen):
                 Screen.win()
                 run = False
